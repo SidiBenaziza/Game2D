@@ -17,10 +17,11 @@ public:
 	bool running() const;
 
 private:
+//boolean for game running 
 	bool			isRunning_{ false };
 	SDL_Window		*window_{ nullptr };
 	SDL_Renderer	*renderer_{ nullptr };
-
+          
 	void clean();
 
 };
