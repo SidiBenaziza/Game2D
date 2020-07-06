@@ -13,7 +13,8 @@ public:
 	void update();
 	void render();
 	
-
+/*return true if game is running 
+*/
 	bool running() const;
 
 private:
