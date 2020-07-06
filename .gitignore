@@ -1,0 +1,8 @@
+
+*.filters
+*.user
+*.vcxproj
+*.dll
+
+x64
+.git
