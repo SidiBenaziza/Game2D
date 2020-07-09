@@ -2,9 +2,12 @@
 
 #include "SDL.h"
 #include "SDL_image.h"
+
 #include <iostream>
 
 #define FPS 60
+
+
 
 class Game
 {

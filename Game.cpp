@@ -1,8 +1,9 @@
 #include "Game.h"
 #include <iostream>
 
-
-
+int xPos = 0;
+SDL_Texture* playerTex;
+SDL_Rect destR;
 
 
 Game::~Game()
@@ -11,7 +12,7 @@ Game::~Game()
 }
 
 void Game::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen) {
-
+	
 	int flags = 0;
 	if (fullscreen)
 	{
@@ -37,7 +38,15 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 			std::cout << "Renderer Created!\n";
 		}
 
+
+		auto tmpSurface = IMG_Load("assets/player.png");
+		playerTex = SDL_CreateTextureFromSurface(renderer_, tmpSurface);
+		SDL_FreeSurface(tmpSurface);
+
 		isRunning_ = true;
+
+
+
 	}
 
 	else
@@ -64,8 +73,15 @@ void Game::handleEvents() {
 }
 
 void Game::update() {
+	
 
+	
+	
+	//
+	destR.h = 64;
+	destR.w = 64;
 
+	destR.x = ++xPos;
 
 }
 
@@ -73,6 +89,9 @@ void Game::render() {
 
 	//clear the current rendering target with the drawing color.
 	SDL_RenderClear(renderer_);
+
+
+	SDL_RenderCopy(renderer_, playerTex, NULL, &destR);
 	//update the screen with any rendering performed since the previous call.
 	SDL_RenderPresent(renderer_);
 
