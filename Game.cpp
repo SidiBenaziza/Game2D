@@ -1,10 +1,30 @@
 #include "Game.h"
+#include "TextureManager.h"
+
+#include "Map.h"
+#include "ECS.h"
+#include "Components.h"
+#include "KeyboardController.h"
+#include "Collision.h"
+
 #include <iostream>
 
-int xPos = 0;
-SDL_Texture* playerTex;
-SDL_Rect destR;
 
+Map *map;
+
+SDL_Renderer* Game::renderer_ = nullptr;
+
+Manager manager;
+SDL_Event Game::event;
+
+std::vector<ColliderComponent*> Game::colliders_;
+
+auto& player(manager.addEntity());
+auto& wall(manager.addEntity());
+
+auto& tile0(manager.addEntity());
+auto& tile1(manager.addEntity());
+auto& tile2(manager.addEntity());
 
 Game::~Game()
 {
@@ -35,17 +55,35 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		if (renderer_)
 		{
 			SDL_SetRenderDrawColor(renderer_, 255, 255, 255, 255);
+
 			std::cout << "Renderer Created!\n";
 		}
 
 
-		auto tmpSurface = IMG_Load("assets/player.png");
-		playerTex = SDL_CreateTextureFromSurface(renderer_, tmpSurface);
-		SDL_FreeSurface(tmpSurface);
+		map = new Map();
+
+		tile0.addComponent<TileComponent>(200,200,32,32,0);
+
+		tile1.addComponent<TileComponent>(250,250,32,32,1);
+		tile1.addComponent<ColliderComponent>("Dirt");
+
+		tile2.addComponent<TileComponent>(150,150,32,32,2);
+		tile2.addComponent<ColliderComponent>("Grass");
+
+		player.addComponent<TransformComponent>(2);
+		player.addComponent<SpriteComponent>("assets/player.png");
+		player.addComponent<KeyboardController>();
+		player.addComponent<ColliderComponent>("Player");
+
+		wall.addComponent<TransformComponent>(300.0f, 400.0f, 200, 20, 1);
+
+		wall.addComponent<SpriteComponent>("assets/dirt.png");
+		wall.addComponent<ColliderComponent>("Wall");
+
+
+
 
 		isRunning_ = true;
-
-
 
 	}
 
